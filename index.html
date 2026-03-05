@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Ecovira ESG Assistant</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <h1>🌿 Ecovira</h1>
+                <p class="tagline">ESG Intelligence for Independent Hotels</p>
+            </div>
+            <div class="header-actions">
+                <a href="landing.html" class="btn-back">← Back to Home</a>
+                <div class="hotel-info">
+                    <span class="hotel-name">Demo Hotel</span>
+                    <span class="hotel-details">4★ | 55 rooms</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Upload Section -->
+        <section class="upload-section">
+            <h2>📄 Data Input</h2>
+            <div class="upload-tabs">
+                <button class="tab-btn active" data-tab="upload">Upload Invoices</button>
+                <button class="tab-btn" data-tab="manual">Manual Entry</button>
+            </div>
+
+            <!-- Upload Tab -->
+            <div class="tab-content active" id="upload-tab">
+                <div class="upload-area" id="uploadArea">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                    <p>Drag & drop PDF invoices here or click to browse</p>
+                    <p class="upload-hint">Energy, Water, or Waste invoices accepted</p>
+                    <input type="file" id="fileInput" accept=".pdf" multiple hidden>
+                </div>
+                <div class="uploaded-files" id="uploadedFiles"></div>
+                
+                <!-- Verification Table -->
+                <div class="verification-section" id="verificationSection" style="display: none;">
+                    <h3>Verify Extracted Data</h3>
+                    <p class="verification-hint">Review and edit the extracted information before adding to your dashboard</p>
+                    <div class="verification-table-container">
+                        <table class="verification-table" id="verificationTable">
+                            <thead>
+                                <tr>
+                                    <th>Field</th>
+                                    <th>Extracted Value</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="verificationTableBody">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="verification-actions">
+                        <button class="btn-secondary" id="cancelVerification">Cancel</button>
+                        <button class="btn-primary" id="confirmVerification">Confirm & Add Data</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Manual Entry Tab -->
+            <div class="tab-content" id="manual-tab">
+                <form class="manual-entry-form" id="manualForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="dataType">Type</label>
+                            <select id="dataType" required>
+                                <option value="">Select...</option>
+                                <option value="energy">Energy</option>
+                                <option value="water">Water</option>
+                                <option value="waste">Waste</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="period">Period</label>
+                            <input type="month" id="period" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="consumption">Consumption</label>
+                            <input type="number" id="consumption" placeholder="e.g., 12500" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="unit">Unit</label>
+                            <select id="unit" required>
+                                <option value="">Select...</option>
+                                <option value="kWh">kWh</option>
+                                <option value="m³">m³</option>
+                                <option value="kg">kg</option>
+                                <option value="L">L</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="cost">Cost (€)</label>
+                            <input type="number" id="cost" placeholder="e.g., 2340" step="0.01" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary">Add Data</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Dashboard Section -->
+        <section class="dashboard-section">
+            <div class="section-header">
+                <h2>📊 ESG Dashboard</h2>
+                <div class="period-selector">
+                    <select id="dashboardPeriod">
+                        <option value="month">This Month</option>
+                        <option value="quarter">This Quarter</option>
+                        <option value="year" selected>This Year</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="kpi-grid">
+                <!-- Energy KPI -->
+                <div class="kpi-card">
+                    <div class="kpi-header">
+                        <span class="kpi-icon">⚡</span>
+                        <h3>Energy</h3>
+                    </div>
+                    <div class="kpi-value" id="energyValue">0 kWh</div>
+                    <div class="kpi-meta">
+                        <span class="kpi-cost" id="energyCost">€0</span>
+                        <span class="kpi-trend neutral" id="energyTrend">—</span>
+                    </div>
+                    <div class="kpi-benchmark">
+                        <div class="benchmark-bar">
+                            <div class="benchmark-fill" id="energyBenchmark" style="width: 0%"></div>
+                        </div>
+                        <span class="benchmark-label">vs. 4★ hotel average</span>
+                    </div>
+                </div>
+
+                <!-- Water KPI -->
+                <div class="kpi-card">
+                    <div class="kpi-header">
+                        <span class="kpi-icon">💧</span>
+                        <h3>Water</h3>
+                    </div>
+                    <div class="kpi-value" id="waterValue">0 m³</div>
+                    <div class="kpi-meta">
+                        <span class="kpi-cost" id="waterCost">€0</span>
+                        <span class="kpi-trend neutral" id="waterTrend">—</span>
+                    </div>
+                    <div class="kpi-benchmark">
+                        <div class="benchmark-bar">
+                            <div class="benchmark-fill" id="waterBenchmark" style="width: 0%"></div>
+                        </div>
+                        <span class="benchmark-label">vs. 4★ hotel average</span>
+                    </div>
+                </div>
+
+                <!-- Waste KPI -->
+                <div class="kpi-card">
+                    <div class="kpi-header">
+                        <span class="kpi-icon">♻️</span>
+                        <h3>Waste</h3>
+                    </div>
+                    <div class="kpi-value" id="wasteValue">0 kg</div>
+                    <div class="kpi-meta">
+                        <span class="kpi-cost" id="wasteCost">€0</span>
+                        <span class="kpi-trend neutral" id="wasteTrend">—</span>
+                    </div>
+                    <div class="kpi-benchmark">
+                        <div class="benchmark-bar">
+                            <div class="benchmark-fill" id="wasteBenchmark" style="width: 0%"></div>
+                        </div>
+                        <span class="benchmark-label">vs. 4★ hotel average</span>
+                    </div>
+                </div>
+
+                <!-- Carbon Footprint -->
+                <div class="kpi-card">
+                    <div class="kpi-header">
+                        <span class="kpi-icon">🌍</span>
+                        <h3>Carbon Footprint</h3>
+                    </div>
+                    <div class="kpi-value" id="carbonValue">0 kg CO₂e</div>
+                    <div class="kpi-meta">
+                        <span class="kpi-per-room" id="carbonPerRoom">0 kg/room</span>
+                        <span class="kpi-trend neutral" id="carbonTrend">—</span>
+                    </div>
+                    <div class="kpi-benchmark">
+                        <div class="benchmark-bar">
+                            <div class="benchmark-fill" id="carbonBenchmark" style="width: 0%"></div>
+                        </div>
+                        <span class="benchmark-label">vs. 4★ hotel average</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Anomalies Section -->
+        <section class="anomalies-section">
+            <h2>⚠️ Anomaly Alerts</h2>
+            <div class="anomalies-container" id="anomaliesContainer">
+                <div class="empty-state">
+                    <p>No anomalies detected. Add data to start monitoring.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recommendations Section -->
+        <section class="recommendations-section">
+            <h2>💡 Recommended Actions</h2>
+            <div class="recommendations-container" id="recommendationsContainer">
+                <div class="empty-state">
+                    <p>Recommendations will appear once data is analyzed.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Export Section -->
+        <section class="export-section">
+            <h2>📋 ESG Reporting</h2>
+            <p class="export-description">Generate structured data for sustainability certifications</p>
+            <div class="export-buttons">
+                <button class="btn-export" id="exportGreenKey">
+                    <span>🔑</span>
+                    Export for Green Key
+                </button>
+                <button class="btn-export" id="exportGreenGlobe">
+                    <span>🌐</span>
+                    Export for Green Globe
+                </button>
+                <button class="btn-export" id="exportCSV">
+                    <span>📊</span>
+                    Export CSV
+                </button>
+            </div>
+        </section>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

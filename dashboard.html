@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Ecovira ESG Assistant</title>
+    <link rel="stylesheet" href="dashboard-styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Privacy Banner -->
+        <div class="privacy-banner">
+            <div class="privacy-content">
+                <span class="privacy-icon">🔒</span>
+                <p><strong>Vos données restent privées.</strong> Toutes les analyses sont effectuées localement dans votre navigateur. Aucune donnée n'est envoyée à des serveurs externes.</p>
+            </div>
+        </div>
+
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <h1>🌿 Ecovira</h1>
+                <p class="tagline">ESG Intelligence for Independent Hotels</p>
+            </div>
+            <div class="header-actions">
+                <a href="landing.html" class="btn-back">← Back to Home</a>
+                <div class="hotel-info">
+                    <span class="hotel-name">Demo Hotel</span>
+                    <span class="hotel-details">4★ | 55 rooms</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Upload Section -->
+        <section class="upload-section">
+            <h2>📄 Data Input</h2>
+            <div class="upload-tabs">
+                <button class="tab-btn active" data-tab="upload">Upload Invoices</button>
+                <button class="tab-btn" data-tab="manual">Manual Entry</button>
+            </div>
+
+            <!-- Upload Tab -->
+            <div class="tab-content active" id="upload-tab">
+                <div class="upload-info">
+                    <h3>📤 Comment ça marche</h3>
+                    <ol class="upload-steps">
+                        <li>Déposez vos factures PDF (énergie, eau, déchets)</li>
+                        <li>Nous extrayons automatiquement les données clés</li>
+                        <li>Vérifiez et corrigez si nécessaire</li>
+                        <li>Consultez votre tableau de bord ESG mis à jour</li>
+                    </ol>
+                </div>
+                <div class="upload-area" id="uploadArea">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                    <p class="upload-main">Glissez-déposez vos factures PDF ici</p>
+                    <p class="upload-or">ou</p>
+                    <button class="btn-upload">Parcourir vos fichiers</button>
+                    <p class="upload-hint">✓ Formats acceptés : PDF uniquement<br>✓ Taille max : 10 MB par fichier<br>✓ Types : Factures d'énergie, eau, déchets</p>
+                    <input type="file" id="fileInput" accept=".pdf" multiple hidden>
+                </div>
+                <div class="uploaded-files" id="uploadedFiles"></div>
+                
+                <!-- Verification Table -->
+                <div class="verification-section" id="verificationSection" style="display: none;">
+                    <div class="verification-header">
+                        <h3>✓ Vérification des données extraites</h3>
+                        <span class="confidence-badge" id="confidenceBadge">Confiance: 95%</span>
+                    </div>
+                    <p class="verification-hint">👁️ Vérifiez les informations ci-dessous. Les champs en <span class="highlight-warning">orange</span> nécessitent votre attention. Vous pouvez modifier directement dans le tableau.</p>
+                    <div class="verification-table-container">
+                        <table class="verification-table" id="verificationTable">
+                            <thead>
+                                <tr>
+                                    <th>Field</th>
+                                    <th>Extracted Value</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="verificationTableBody">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="verification-actions">
+                        <button class="btn-secondary" id="cancelVerification">Cancel</button>
+                        <button class="btn-primary" id="confirmVerification">Confirm & Add Data</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Manual Entry Tab -->
+            <div class="tab-content" id="manual-tab">
+                <form class="manual-entry-form" id="manualForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="dataType">Type</label>
+                            <select id="dataType" required>
+                                <option value="">Select...</option>
+                                <option value="energy">Energy</option>
+                                <option value="water">Water</option>
+                                <option value="waste">Waste</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="period">Period</label>
+                            <input type="month" id="period" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="consumption">Consumption</label>
+                            <input type="number" id="consumption" placeholder="e.g., 12500" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="unit">Unit</label>
+                            <select id="unit" required>
+                                <option value="">Select...</option>
+                                <option value="kWh">kWh</option>
+                                <option value="m³">m³</option>
+                                <option value="kg">kg</option>
+                                <option value="L">L</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="cost">Cost (€)</label>
+                            <input type="number" id="cost" placeholder="e.g., 2340" step="0.01" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary">Add Data</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Dashboard Section -->
+        <section class="dashboard-section">
+            <div class="section-header">
+                <h2>📊 Tableau de bord ESG</h2>
+                <div class="period-selector">
+                    <select id="dashboardPeriod">
+                        <option value="month">Ce mois</option>
+                        <option value="quarter">Ce trimestre</option>
+                        <option value="year" selected>Cette année</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Empty State -->
+            <div class="empty-state" id="emptyState">
+                <div class="empty-state-icon">📈</div>
+                <h3>Commencez par importer vos premières factures</h3>
+                <p>Pour voir vos KPIs ESG et obtenir des recommandations personnalisées, ajoutez vos factures d'énergie, d'eau ou de déchets ci-dessus.</p>
+                <div class="empty-state-benefits">
+                    <div class="benefit-item">
+                        <span>✓</span> Suivi en temps réel de vos consommations
+                    </div>
+                    <div class="benefit-item">
+                        <span>✓</span> Détection automatique d'anomalies
+                    </div>
+                    <div class="benefit-item">
+                        <span>✓</span> Recommandations avec ROI calculé
+                    </div>
+                    <div class="benefit-item">
+                        <span>✓</span> Export pour certifications Green Key / Green Globe
+                    </div>
+                </div>
+            </div>
+
+            <div class="kpi-grid" id="kpiGrid" style="display: none;">
+                <!-- Energy KPI -->
+                <div class="kpi-card">
+                    <div class="kpi-header">
+                        <span class="kpi-icon">⚡</span>
+                        <div>
+                            <h3>Énergie</h3>
+                            <span class="kpi-tooltip" title="Consommation électrique totale basée sur vos factures">ℹ️</span>
+                        </div>
+                    </div>
+                    <div class="kpi-value" id="energyValue">0 kWh</div>
+                    <div class="kpi-meta">
+                        <span class="kpi-cost" id="energyCost">€0</span>
+                        <span class="kpi-trend neutral" id="energyTrend">—</span>
+                    </div>
+                    <div class="kpi-benchmark">
+                        <div class="benchmark-bar">
+                            <div class="benchmark-fill" id="energyBenchmark" style="width: 0%"></div>
+                        </div>
+                        <span class="benchmark-label" id="energyBenchmarkLabel">Chargement...</span>
+                    </div>
+                </div>
+
+                <!-- Water KPI -->
+                <div class="kpi-card">
+                    <div class="kpi-header">
+                        <span class="kpi-icon">💧</span>
+                        <div>
+                            <h3>Eau</h3>
+                            <span class="kpi-tooltip" title="Consommation d'eau totale basée sur vos factures">ℹ️</span>
+                        </div>
+                    </div>
+                    <div class="kpi-value" id="waterValue">0 m³</div>
+                    <div class="kpi-meta">
+                        <span class="kpi-cost" id="waterCost">€0</span>
+                        <span class="kpi-trend neutral" id="waterTrend">—</span>
+                    </div>
+                    <div class="kpi-benchmark">
+                        <div class="benchmark-bar">
+                            <div class="benchmark-fill" id="waterBenchmark" style="width: 0%"></div>
+                        </div>
+                        <span class="benchmark-label" id="waterBenchmarkLabel">Chargement...</span>
+                    </div>
+                </div>
+
+                <!-- Waste KPI -->
+                <div class="kpi-card">
+                    <div class="kpi-header">
+                        <span class="kpi-icon">♻️</span>
+                        <div>
+                            <h3>Déchets</h3>
+                            <span class="kpi-tooltip" title="Quantité de déchets générés basée sur vos factures">ℹ️</span>
+                        </div>
+                    </div>
+                    <div class="kpi-value" id="wasteValue">0 kg</div>
+                    <div class="kpi-meta">
+                        <span class="kpi-cost" id="wasteCost">€0</span>
+                        <span class="kpi-trend neutral" id="wasteTrend">—</span>
+                    </div>
+                    <div class="kpi-benchmark">
+                        <div class="benchmark-bar">
+                            <div class="benchmark-fill" id="wasteBenchmark" style="width: 0%"></div>
+                        </div>
+                        <span class="benchmark-label" id="wasteBenchmarkLabel">Chargement...</span>
+                    </div>
+                </div>
+
+                <!-- Carbon Footprint -->
+                <div class="kpi-card">
+                    <div class="kpi-header">
+                        <span class="kpi-icon">🌍</span>
+                        <div>
+                            <h3>Empreinte Carbone</h3>
+                            <span class="kpi-tooltip" title="Émissions de CO2 estimées basées sur votre consommation d'énergie">ℹ️</span>
+                        </div>
+                    </div>
+                    <div class="kpi-value" id="carbonValue">0 kg CO₂e</div>
+                    <div class="kpi-meta">
+                        <span class="kpi-per-room" id="carbonPerRoom">0 kg/chambre</span>
+                        <span class="kpi-trend neutral" id="carbonTrend">—</span>
+                    </div>
+                    <div class="kpi-benchmark">
+                        <div class="benchmark-bar">
+                            <div class="benchmark-fill" id="carbonBenchmark" style="width: 0%"></div>
+                        </div>
+                        <span class="benchmark-label" id="carbonBenchmarkLabel">Chargement...</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Anomalies Section -->
+        <section class="anomalies-section" id="anomaliesSection" style="display: none;">
+            <h2>⚠️ Alertes et Anomalies</h2>
+            <p class="section-description">Détection automatique des consommations inhabituelles et des opportunités d'optimisation</p>
+            <div class="anomalies-container" id="anomaliesContainer">
+                <div class="empty-state-small">
+                    <p>Aucune anomalie détectée pour le moment.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recommendations Section -->
+        <section class="recommendations-section" id="recommendationsSection" style="display: none;">
+            <h2>💡 Recommandations Personnalisées</h2>
+            <p class="section-description">Actions concrètes avec ROI calculé pour réduire vos coûts et votre impact environnemental</p>
+            <div class="recommendations-container" id="recommendationsContainer">
+                <div class="empty-state-small">
+                    <p>Les recommandations apparaîtront après l'analyse de vos données.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Export Section -->
+        <section class="export-section" id="exportSection" style="display: none;">
+            <h2>📋 Export pour Certifications</h2>
+            <p class="export-description">Générez des rapports structurés prêts pour vos démarches de certification ESG</p>
+            <div class="export-buttons">
+                <button class="btn-export" id="exportGreenKey">
+                    <span>🔑</span>
+                    Export for Green Key
+                </button>
+                <button class="btn-export" id="exportGreenGlobe">
+                    <span>🌐</span>
+                    Export for Green Globe
+                </button>
+                <button class="btn-export" id="exportCSV">
+                    <span>📊</span>
+                    Export CSV
+                </button>
+            </div>
+        </section>
+    </div>
+
+    <script src="dashboard-app.js"></script>
+</body>
+</html>

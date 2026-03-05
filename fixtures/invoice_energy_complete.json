@@ -1,0 +1,14 @@
+{
+  "invoice_id": "inv_20231215_energy_001",
+  "invoice_type": "energy",
+  "supplier_name": "EDF Entreprises",
+  "invoice_date": "2023-12-15",
+  "billing_period_start": "2023-11-01",
+  "billing_period_end": "2023-11-30",
+  "total_amount": 3250.50,
+  "consumption_value": 18500,
+  "unit": "kWh",
+  "confidence": 0.95,
+  "missing_fields": [],
+  "raw_text_excerpt": "Facture N° 2023-11-XYZ | Période: 01/11/2023 - 30/11/2023 | Consommation: 18500 kWh"
+}

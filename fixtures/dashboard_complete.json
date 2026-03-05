@@ -1,0 +1,153 @@
+{
+  "hotel_info": {
+    "rooms_count": 55,
+    "occupancy_estimate": 0.72
+  },
+  "period": "Nov 2023",
+  "kpis": [
+    {
+      "metric": "Energy Consumption",
+      "value": 18500,
+      "unit": "kWh",
+      "period": "Nov 2023",
+      "trend": -3.2,
+      "per_room": 336.4,
+      "benchmark": 291.7
+    },
+    {
+      "metric": "Water Usage",
+      "value": 320,
+      "unit": "m3",
+      "period": "Nov 2023",
+      "trend": 1.5,
+      "per_room": 5.82,
+      "benchmark": 10.0
+    },
+    {
+      "metric": "Total Cost",
+      "value": 4100.50,
+      "unit": "EUR",
+      "period": "Nov 2023",
+      "trend": 2.1
+    },
+    {
+      "metric": "CO2 Emissions",
+      "value": 4310.5,
+      "unit": "kg CO2e",
+      "period": "Nov 2023",
+      "per_room": 78.4
+    }
+  ],
+  "anomalies": [
+    {
+      "id": "anom_001",
+      "severity": "warning",
+      "category": "consumption",
+      "title": "Energy consumption above benchmark",
+      "description": "November energy usage is 15% higher than the industry benchmark for 4-star hotels (336.4 kWh/room vs 291.7 kWh/room expected).",
+      "detected_value": 336.4,
+      "expected_range": "250-300 kWh/room",
+      "impact_estimate": "€580/year excess cost if trend continues"
+    },
+    {
+      "id": "anom_002",
+      "severity": "info",
+      "category": "efficiency",
+      "title": "Excellent water efficiency",
+      "description": "Water consumption is 42% below industry benchmark (5.82 m³/room vs 10.0 m³/room benchmark). Great job!",
+      "detected_value": 5.82,
+      "expected_range": "8-12 m3/room"
+    }
+  ],
+  "recommendations": [
+    {
+      "id": "rec_001",
+      "title": "Install LED lighting in common areas",
+      "rationale": "Current energy usage suggests 30% of consumption is lighting. LED retrofit can reduce this by 60%.",
+      "action_steps": [
+        "Audit current lighting inventory in lobby, hallways, restaurant",
+        "Get quotes from 2-3 commercial LED suppliers",
+        "Replace high-use areas first (lobby open 24/7)",
+        "Monitor energy savings monthly for 3 months"
+      ],
+      "difficulty": "low",
+      "estimated_savings": "€1,200-1,800/year",
+      "payback_period": "18-24 months",
+      "roi_percentage": 45,
+      "environmental_impact": "Reduce CO2 by 2.5 tons/year"
+    },
+    {
+      "id": "rec_002",
+      "title": "Schedule HVAC system maintenance",
+      "rationale": "Energy consumption spike may indicate inefficient heating/cooling. Regular maintenance improves efficiency by 15-20%.",
+      "action_steps": [
+        "Book certified HVAC technician for full system check",
+        "Clean filters and coils",
+        "Check thermostat calibration",
+        "Consider programmable thermostats for guest rooms"
+      ],
+      "difficulty": "low",
+      "estimated_savings": "€800-1,200/year",
+      "payback_period": "6-12 months",
+      "roi_percentage": 120,
+      "environmental_impact": "Reduce CO2 by 1.8 tons/year"
+    },
+    {
+      "id": "rec_003",
+      "title": "Implement smart room occupancy sensors",
+      "rationale": "With 72% occupancy, 28% of rooms are empty. Sensors can cut energy use in unoccupied rooms by 40%.",
+      "action_steps": [
+        "Pilot in 10 rooms with motion sensors + smart thermostats",
+        "Measure energy savings over 2 months",
+        "If ROI positive, roll out to all rooms",
+        "Integrate with PMS for automatic control"
+      ],
+      "difficulty": "medium",
+      "estimated_savings": "€2,500-3,500/year",
+      "payback_period": "24-36 months",
+      "roi_percentage": 35,
+      "environmental_impact": "Reduce CO2 by 4.2 tons/year"
+    }
+  ],
+  "label_fields": {
+    "certification_type": "Green Key",
+    "fields": {
+      "energy_consumption_total": {
+        "label": "Total Energy Consumption (Annual)",
+        "value": 222000,
+        "unit": "kWh",
+        "notes": "Based on Nov 2023 data extrapolated to 12 months"
+      },
+      "energy_per_guest_night": {
+        "label": "Energy per Guest Night",
+        "value": 45.2,
+        "unit": "kWh",
+        "notes": "Assumes 72% occupancy, 55 rooms, avg 1.8 guests/room"
+      },
+      "water_consumption_total": {
+        "label": "Total Water Consumption (Annual)",
+        "value": 3840,
+        "unit": "m3",
+        "notes": "Based on Nov 2023 data extrapolated to 12 months"
+      },
+      "water_per_guest_night": {
+        "label": "Water per Guest Night",
+        "value": 0.26,
+        "unit": "m3",
+        "notes": "Well below Green Key threshold of 0.4 m³/guest night"
+      },
+      "co2_emissions": {
+        "label": "Estimated CO2 Emissions (Annual)",
+        "value": 51.7,
+        "unit": "tons CO2e",
+        "notes": "Using France grid emission factor: 0.233 kg CO2e/kWh"
+      },
+      "waste_recycling_rate": {
+        "label": "Waste Recycling Rate",
+        "value": "N/A",
+        "notes": "Add waste invoice data to calculate"
+      }
+    },
+    "generated_at": "2023-12-22T14:30:00Z"
+  }
+}

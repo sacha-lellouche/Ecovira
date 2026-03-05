@@ -1,0 +1,14 @@
+{
+  "invoice_id": "inv_20231220_water_001",
+  "invoice_type": "water",
+  "supplier_name": "Veolia Eau",
+  "invoice_date": "2023-12-20",
+  "billing_period_start": "2023-11-01",
+  "billing_period_end": "2023-11-30",
+  "total_amount": 850.00,
+  "consumption_value": 320,
+  "unit": "m3",
+  "confidence": 0.92,
+  "missing_fields": [],
+  "raw_text_excerpt": "Consommation d'eau Nov 2023: 320 m³ | Total TTC: 850.00 EUR"
+}

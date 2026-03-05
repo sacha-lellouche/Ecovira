@@ -1,0 +1,14 @@
+{
+  "invoice_id": "inv_20231218_energy_002",
+  "invoice_type": "energy",
+  "supplier_name": "",
+  "invoice_date": "2023-12-18",
+  "billing_period_start": "2023-12-01",
+  "billing_period_end": "",
+  "total_amount": 3580.00,
+  "consumption_value": 19200,
+  "unit": "kWh",
+  "confidence": 0.68,
+  "missing_fields": ["supplier_name", "billing_period_end"],
+  "raw_text_excerpt": "Dec 2023 | 19200 kWh | Montant: 3580 EUR"
+}
